@@ -124,29 +124,28 @@ This creates 5 synthetic WAV files in `songs/` that you can use for testing whil
 
 ### Run the tests
 
-Your tests live in `tests/student/`. Initially, every test will fail with `NotImplementedError`. As you implement each function, more tests will pass:
+Your tests live in `tests/`. Initially, every test will fail with `NotImplementedError`. As you implement each function, more tests will pass:
 
 ```bash
 # Run all tests
-python -m pytest tests/student/ -v
+python -m pytest tests/ -v
 
 # Run just the hash table tests
-python -m pytest tests/student/test_hash_table.py -v
+python -m pytest tests/test_hash_table.py -v
 
 # Run just the fingerprint tests
-python -m pytest tests/student/test_fingerprint.py -v
+python -m pytest tests/test_fingerprint.py -v
 
 # Run just the matching tests
-python -m pytest tests/student/test_matching.py -v
+python -m pytest tests/test_matching.py -v
 ```
 
 ### Project structure
 
-All the files you need to edit are in `src/student/`:
+All the files you need to edit are in `src/`:
 
 ```
-src/student/
-├── GUIDE.md              ← You are here
+src/
 ├── hash_table.py          ← Milestone 1: implement the hash table
 ├── fingerprint.py         ← Milestone 2: implement peak finding & fingerprint generation
 ├── database.py            ← Milestone 3: implement song indexing & serialization
@@ -160,9 +159,9 @@ src/student/
 
 **Goal:** Build a hash table with separate chaining from scratch.
 
-**File:** `src/student/hash_table.py`
+**File:** `src/hash_table.py`
 
-**Tests:** `python -m pytest tests/student/test_hash_table.py -v`
+**Tests:** `python -m pytest tests/test_hash_table.py -v`
 
 ### 3.1 Theory: What is a hash table?
 
@@ -226,7 +225,7 @@ This is expensive — O(n) — but it happens rarely. Since we double each time,
 
 ### 3.6 Implementation steps
 
-Open `src/student/hash_table.py`. Implement the methods in this order:
+Open `src/hash_table.py`. Implement the methods in this order:
 
 #### Step 1: `_hash(key)`
 
@@ -282,7 +281,7 @@ Return a dict with these keys:
 
 Run the tests:
 ```bash
-python -m pytest tests/student/test_hash_table.py -v
+python -m pytest tests/test_hash_table.py -v
 ```
 
 All 11 tests should pass. If they do, your hash table is ready for Shazam!
@@ -293,9 +292,9 @@ All 11 tests should pass. If they do, your hash table is ready for Shazam!
 
 **Goal:** Extract fingerprints from audio — the "constellation map" that makes each song recognizable.
 
-**File:** `src/student/fingerprint.py`
+**File:** `src/fingerprint.py`
 
-**Tests:** `python -m pytest tests/student/test_fingerprint.py -v`
+**Tests:** `python -m pytest tests/test_fingerprint.py -v`
 
 ### 4.1 Theory: The spectrogram
 
@@ -377,7 +376,7 @@ After band-based selection, we apply a **local maximum filter** to remove tempor
 
 ### 4.3 Implementation: `find_peaks()`
 
-Open `src/student/fingerprint.py`. The `find_peaks()` function has two steps:
+Open `src/fingerprint.py`. The `find_peaks()` function has two steps:
 
 #### Step 1: Band-based candidate selection
 
@@ -517,7 +516,7 @@ return fingerprints
 ### 4.8 Checkpoint
 
 ```bash
-python -m pytest tests/student/test_fingerprint.py -v
+python -m pytest tests/test_fingerprint.py -v
 ```
 
 All 8 tests should pass.
@@ -528,9 +527,9 @@ All 8 tests should pass.
 
 **Goal:** Build a song database and implement the matching algorithm.
 
-**Files:** `src/student/database.py` and `src/student/recognize.py`
+**Files:** `src/database.py` and `src/recognize.py`
 
-**Tests:** `python -m pytest tests/student/test_matching.py -v`
+**Tests:** `python -m pytest tests/test_matching.py -v`
 
 ### 5.1 The database
 
@@ -549,7 +548,7 @@ Multiple songs (and multiple positions within the same song) can share the same 
 
 ### 5.2 Implementation: `index_song()` and `index_directory()`
 
-These are in `src/student/database.py`. Follow the detailed docstrings in the file.
+These are in `src/database.py`. Follow the detailed docstrings in the file.
 
 `index_song()`:
 1. Load audio → fingerprint it → assign a song ID → store name → insert all fingerprints into the hash table
@@ -590,7 +589,7 @@ Billie Jean histogram:        Other Song histogram:
 
 ### 5.4 Implementation: `recognize()`
 
-Open `src/student/recognize.py`. The algorithm:
+Open `src/recognize.py`. The algorithm:
 
 ```python
 def recognize(audio, sample_rate, database):
@@ -641,7 +640,7 @@ entries.append([int(key), int(song_id), int(time_offset)])
 ### 5.6 Checkpoint
 
 ```bash
-python -m pytest tests/student/test_matching.py -v
+python -m pytest tests/test_matching.py -v
 ```
 
 All 6 tests should pass. Try a quick end-to-end test:
@@ -779,12 +778,12 @@ Answer these based on your implementation. Use data from your hash table statist
 
 ```bash
 # All student tests
-python -m pytest tests/student/ -v
+python -m pytest tests/ -v
 
 # By milestone
-python -m pytest tests/student/test_hash_table.py -v      # Milestone 1
-python -m pytest tests/student/test_fingerprint.py -v      # Milestone 2
-python -m pytest tests/student/test_matching.py -v          # Milestone 3
+python -m pytest tests/test_hash_table.py -v      # Milestone 1
+python -m pytest tests/test_fingerprint.py -v      # Milestone 2
+python -m pytest tests/test_matching.py -v          # Milestone 3
 ```
 
 ### Academic references
