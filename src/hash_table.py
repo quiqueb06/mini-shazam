@@ -204,3 +204,27 @@ class HashTable:
         happen? What is the amortized cost per insertion? (Think about this!)
         """
         raise NotImplementedError("_resize not implemented yet.")
+    
+def _hash(self, key):
+    return (int(key) * 2654435761) % self._capacity
+
+def insert(self, key, value):
+    index = self._hash(key)
+    self._buckets[index].append((key, value))
+    self._size += 1
+    if self.load_factor() > 0.75:
+        self._resize()
+
+def lookup(self, key):
+    index = self._hash(key)
+    return [val for k, val in self._buckets[index] if k == key]
+
+def _resize(self):
+    new_capacity = self._next_prime(self._capacity * 2)
+    old_buckets = self._buckets
+    self._capacity = new_capacity
+    self._buckets = [[] for _ in range(new_capacity)]
+    self._size = 0
+    for bucket in old_buckets:
+        for k, v in bucket:
+            self.insert(k, v)
