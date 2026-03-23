@@ -285,3 +285,26 @@ def fingerprint_audio(audio, sample_rate=SAMPLE_RATE):
     _, _, spec = compute_spectrogram(audio, sample_rate)
     peaks = find_peaks(spec)
     return generate_fingerprints(peaks)
+
+def hash_peak_pair(f1, f2, dt):
+
+    return (f1 << 24) | (f2 << 12) | dt
+
+for t in range(n_time):
+    col = spec[:, t]
+    for lo, hi in freq_bands:
+        hi = min(hi, n_freq)
+        if lo >= n_freq: break
+        f_local = np.argmax(col[lo:hi])
+        f_global = lo + f_local
+        if col[f_global] > threshold:
+            band_peaks.add((t, f_global))
+
+for i, (t1, f1) in enumerate(peaks):
+    for j in range(i + 1, len(peaks)):
+        t2, f2 = peaks[j]
+        dt = t2 - t1
+        if dt < zone_start: continue
+        if dt > zone_end: break
+        h = hash_peak_pair(f1, f2, dt)
+        fingerprints.append((h, t1))
