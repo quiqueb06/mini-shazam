@@ -149,3 +149,16 @@ class SongDatabase:
         """
         # TODO: Implement load
         raise NotImplementedError("Implement load()")
+
+    def save(self, filepath):
+        entries = []
+        for bucket in self.table._buckets:
+            for key, (song_id, t_offset) in bucket:
+                entries.append([int(key), int(song_id), int(t_offset)])
+
+        data = {
+            "song_names": {str(k): v for k, v in self.song_names.items()},
+            "next_id": self._next_id,
+            "capacity": self.table.capacity(),
+            "entries": entries
+        }
